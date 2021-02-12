@@ -5,7 +5,7 @@ import { authOp, getVaults, rowToEntry, createLogin } from "./op";
 const prompt = Prompt({ sigint: true });
 
 const promptOpAuth = (shorthand: string) => {
-  const vaultPassword = prompt("1Password password: ");
+  const vaultPassword = prompt.hide("1Password password: ");
   authOp(shorthand, vaultPassword);
 };
 
@@ -38,7 +38,12 @@ export const migrateLogins = (options: MigrateLoginOptions): void => {
   }));
 
   // Configure 1Password target
-  promptOpAuth(accountShorthand);
+  try {
+    promptOpAuth(accountShorthand);
+  } catch (err) {
+    process.stderr.write(`${err.message}\n`);
+    process.exit(1);
+  }
   const vaultUuid = promptVault();
 
   // Migrate the logins

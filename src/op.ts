@@ -48,11 +48,12 @@ const LOGIN_TEMPLATE: Login = {
 
 export const authOp = (shorthand: string, password: string): void => {
   const session = shell
-    .echo(password)
-    .exec(`op signin ${shorthand} --raw`, { silent: true })
-    .stdout.trim();
+    .ShellString(password)
+    .exec(`op signin ${shorthand} --raw`, { silent: true });
 
-  shell.env[`OP_SESSION_${shorthand}`] = session;
+  if (session.code !== 0) throw new Error(session.stderr);
+
+  shell.env[`OP_SESSION_${shorthand}`] = session.stdout.trim();
 };
 
 export const getVaults = (): Vault[] =>
@@ -101,7 +102,7 @@ export const createLogin = (
   vaultUuid: string
 ): void => {
   const payload = shell
-    .echo(JSON.stringify(login))
+    .ShellString(JSON.stringify(login))
     .exec(`op encode`, { silent: true })
     .stdout.trim();
   shell.exec(
