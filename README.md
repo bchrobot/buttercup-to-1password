@@ -1,3 +1,5 @@
+[![npm](https://img.shields.io/npm/v/buttercup-to-1password)](https://www.npmjs.com/package/buttercup-to-1password) ![GitHub](https://img.shields.io/github/license/bchrobot/buttercup-to-1password)
+
 # bc2op
 
 A CLI for migrating from Buttercup to 1Password.
