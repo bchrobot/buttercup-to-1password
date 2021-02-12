@@ -2,6 +2,23 @@
   "name": "buttercup-to-1password",
   "version": "0.1.0",
   "description": "Tool for migrating from Buttercup to 1Password",
+  "homepage": "https://github.com/bchrobot/buttercup-to-1password",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bchrobot/buttercup-to-1password.git"
+  },
+  "bugs": "https://github.com/bchrobot/buttercup-to-1password/issues",
+  "author": {
+    "name": "Benjamin Chrobot",
+    "email": "benjamin.chrobot@alum.mit.edu",
+    "url": "https://benjaminchrobot.com"
+  },
+  "keywords": [
+    "buttercup",
+    "1password",
+    "password",
+    "migrate"
+  ],
   "main": "./dist/index.js",
   "bin": {
     "bc2op": "./dist/cli.js"
