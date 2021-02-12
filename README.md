@@ -4,7 +4,31 @@
 
 A CLI for migrating from Buttercup to 1Password.
 
+## Getting Started
+
+Install the [1Password CLI](https://support.1password.com/command-line-getting-started/) and then authenticate to give your account a shorthand identifier:
+
+```sh
+op signin myshorthand.1password.com wendy_appleseed@example.com
 ```
+
+Install `bc2op`:
+
+```sh
+npm i -g buttercup-to-1password
+```
+
+Export your password from Buttercup to a CSV and then migrate with `bc2op`:
+
+```sh
+bc2op --shorthand=myshorthand /path/to/buttercup-export.csv
+```
+
+## Usage
+
+```
+bc2op --help
+
 > Migrate password entires from Buttercup export to 1Password
 
 ARGUMENTS:
