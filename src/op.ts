@@ -99,13 +99,14 @@ export const rowToEntry = (row: ButtercupRow, _mapping: TagMapping): Login => {
 export const createLogin = (
   login: Login,
   title: string,
-  vaultUuid: string
+  vaultUuid: string,
+  tags: string[] = []
 ): void => {
   const payload = shell
     .ShellString(JSON.stringify(login))
     .exec(`op encode`, { silent: true })
     .stdout.trim();
-  shell.exec(
-    `op create item login ${payload} --title="${title}" --vault=${vaultUuid}`
-  );
+  const tagString = tags.length > 0 ? `--tags="${tags.join(",")}"` : "";
+  const command = `op create item login ${payload} --title="${title}" --vault=${vaultUuid} ${tagString}`;
+  shell.exec(command, { silent: true });
 };

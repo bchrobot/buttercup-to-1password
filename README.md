@@ -10,6 +10,7 @@ ARGUMENTS:
 
 OPTIONS:
   --shorthand, -s <str> - Shorthand name for 1Password account
+  --mode, -m <value>    - How to handle converting Buttercup groups to 1Password tags. [optional]
 
 FLAGS:
   --dry-run, -d - Print payloads instead of persisting to 1Password

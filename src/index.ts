@@ -1,5 +1,5 @@
 import Prompt from "prompt-sync";
-import { parseExportSync, buildTagMappings } from "./buttercup";
+import { parseExportSync, buildTagMappings, TagMode } from "./buttercup";
 import { authOp, getVaults, rowToEntry, createLogin } from "./op";
 
 const prompt = Prompt({ sigint: true });
@@ -23,17 +23,19 @@ const promptVault = () => {
 export interface MigrateLoginOptions {
   exportPath: string;
   accountShorthand: string;
+  mode: TagMode;
   dryrun: boolean;
 }
 
 export const migrateLogins = (options: MigrateLoginOptions): void => {
-  const { exportPath, accountShorthand, dryrun } = options;
+  const { exportPath, accountShorthand, mode, dryrun } = options;
 
   // Parse Buttercup export
   const { groups, entries } = parseExportSync(exportPath);
-  const tagMappings = buildTagMappings(groups);
+  const tagMappings = buildTagMappings(groups, mode);
   const logins = entries.map((row) => ({
     title: row.title,
+    tags: tagMappings[row["!group_id"]] || [],
     login: rowToEntry(row, tagMappings),
   }));
 
@@ -47,11 +49,11 @@ export const migrateLogins = (options: MigrateLoginOptions): void => {
   const vaultUuid = promptVault();
 
   // Migrate the logins
-  for (const { title, login } of logins) {
+  for (const { title, login, tags } of logins) {
     if (dryrun) {
       console.log(title, login);
     } else {
-      createLogin(login, title, vaultUuid);
+      createLogin(login, title, vaultUuid, tags);
     }
   }
 };

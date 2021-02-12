@@ -1,7 +1,16 @@
 #!/usr/bin/env node
-import { command, run, string, positional, option, flag } from "cmd-ts";
+import {
+  command,
+  run,
+  string as stringType,
+  positional,
+  option,
+  flag,
+  oneOf,
+} from "cmd-ts";
 import { File } from "cmd-ts/dist/cjs/batteries/fs";
 
+import { TagMode } from "./buttercup";
 import { migrateLogins } from "./index";
 
 const cmd = command({
@@ -18,7 +27,15 @@ const cmd = command({
       short: "s",
       long: "shorthand",
       description: "Shorthand name for 1Password account",
-      type: string,
+      type: stringType,
+    }),
+    mode: option({
+      short: "m",
+      long: "mode",
+      description:
+        "How to handle converting Buttercup groups to 1Password tags.",
+      type: oneOf<TagMode>([TagMode.Plain, TagMode.Indexed, TagMode.Combined]),
+      defaultValue: () => TagMode.Combined,
     }),
     dryrun: flag({
       short: "d",
@@ -27,8 +44,13 @@ const cmd = command({
       defaultValue: () => false,
     }),
   },
-  handler: ({ export: exportPath, shorthand: accountShorthand, dryrun }) => {
-    migrateLogins({ exportPath, accountShorthand, dryrun });
+  handler: ({
+    export: exportPath,
+    shorthand: accountShorthand,
+    mode,
+    dryrun,
+  }) => {
+    migrateLogins({ exportPath, accountShorthand, mode, dryrun });
   },
 });
 
