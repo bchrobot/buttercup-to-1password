@@ -66,8 +66,8 @@ export const rowToEntry = (row: ButtercupRow, _mapping: TagMapping): Login => {
 
   const { username, password, ...otherFields } = omit<
     ButtercupRow,
-    "!type" | "!group_id" | "!group_name" | "!group_parent" | "id"
-  >(row, ["!type", "!group_id", "!group_name", "!group_parent"]);
+    "!type" | "!group_id" | "!group_name" | "!group_parent" | "id" | "title"
+  >(row, ["!type", "!group_id", "!group_name", "!group_parent", "id", "title"]);
 
   // Update username/password
   const usernameField = draft.fields.find(
